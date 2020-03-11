@@ -1,0 +1,13 @@
+Package: portkey
+Type: Package
+Title: Bernoulli Factory MCMC: Portkey Two-Coin Algorithm for Markov Chain Monte Carlo
+Version: 1.0
+Date: 2020-03-11
+Author: Dootika Vats
+Maintainer: Dootika Vats <dootika@iitk.ac.in>
+Description: Use the package within an MCMC algorithm via a Portkey two-coin Bernoulli factory to obtain the next step of the Markov chain.
+License: GPL (>= 2)
+URL: http://home.iitk.ac.in/~dootika/
+Repository: CRAN
+Encoding: UTF-8
+RoxygenNote: 7.0.2
