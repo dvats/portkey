@@ -20,7 +20,7 @@ of the Markov chain}
 
 \item{Ccurr}{Upper bound for the current value}
 
-\item{...}{additional arguments that go into \code{pf} and \code{Cf}}
+\item{...}{additional arguments that go into \code{pf}}
 }
 \value{
 a variable \code{x} which is either \code{curr} or \code{prop} and integer \code{loops} that returns the number 

@@ -7,7 +7,7 @@
 #'     of the Markov chain
 #' @param Cprop Upper bound for the proposed value
 #' @param Ccurr Upper bound for the current value
-#' @param ... additional arguments that go into \code{pf} and \code{Cf}
+#' @param ... additional arguments that go into \code{pf}
 #' @return  a variable \code{x} which is either \code{curr} or \code{prop} and integer \code{loops} that returns the number 
 #'     of loops the Bernoulli factory took
 #' @examples
@@ -109,7 +109,7 @@ portkey <- function(prop, curr, beta = .99, pf, Cprop, Ccurr, ...)
 #'     of the Markov chain
 #' @param Cprop Upper bound for the proposed value
 #' @param Ccurr Upper bound for the current value
-#' @param ... additional arguments that go into \code{pf} and \code{Cf}
+#' @param ... additional arguments that go into \code{pf}
 #' @return  a variable \code{x} which is either \code{curr} or \code{prop} and integer \code{loops} that returns the number 
 #'     of loops the Bernoulli factory took
 #' @export
