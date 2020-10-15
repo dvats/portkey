@@ -1,15 +1,17 @@
-#' Portkey two-coin algorithm
+#' Portkey two-coin algorithm: returns the result of the accept-reject step of a Portkey Barker's acceptance probability.
 #'
 #' @param prop The proposed value in the MCMC step
 #' @param curr The current value in the MCMC step
-#' @param beta The portkey parameter with default being .99. If beta = 1, this is the regular two-coin algorithm
+#' @param beta The portkey parameter with default being .99. If \code{beta = 1}, this is the regular two-coin algorithm
 #' @param pf A function that produces a Bern(p) realization, with argument \code{value} for the state 
 #'     of the Markov chain
-#' @param Cprop Upper bound for the proposed value
-#' @param Ccurr Upper bound for the current value
+#' @param Cprop Upper bound for the target density at proposed value
+#' @param Ccurr Upper bound for the target density current value
 #' @param ... additional arguments that go into \code{pf}
 #' @return  a variable \code{x} which is either \code{curr} or \code{prop} and integer \code{loops} that returns the number 
 #'     of loops the Bernoulli factory took
+#' @references
+#' Vats, D., Gonçalves, F. B., Łatuszyński, K., Roberts G. O., Efficient Bernoulli factory MCMC for intractable posteriors (2020+), arxiv.
 #' @examples
 #' # The following example implements the portkey-two coin algorithm for a
 #' # Gamma mixture of Weibulls as presented in Vats et. al. (2020)
@@ -101,14 +103,74 @@ portkey <- function(prop, curr, beta = .99, pf, Cprop, Ccurr, ...)
 }
 
 
-#' Two-coin algorithm
+#' Flipped portkey two-coin algorithm: returns the result of the accept-reject step of a Flipped Portkey Barker's acceptance probability.
+#' Note: the flipped portkey is the same as Barker's for \code{beta = 1}.
+#'
+#' @param prop The proposed value in the MCMC step
+#' @param curr The current value in the MCMC step
+#' @param beta The portkey parameter with default being .99. If \code{beta = 1}, this is the regular two-coin algorithm
+#' @param pf A function that produces a Bern(p) realization, with argument \code{value} for the state 
+#'     of the Markov chain
+#' @param Cprop Upper bound for the inverse target at the proposed value
+#' @param Ccurr Upper bound for the inverse target at the current value
+#' @param ... additional arguments that go into \code{pf}
+#' @return  a variable \code{x} which is either \code{curr} or \code{prop} and integer \code{loops} that returns the number 
+#'     of loops the Bernoulli factory took
+#' @references 
+#' Vats, D., Gonçalves, F. B., Łatuszyński, K., Roberts G. O., Efficient Bernoulli factory MCMC for intractable posteriors (2020+), arxiv.
+#' @export
+#' @author Dootika Vats, \email{dootika@iitk.ac.in}
+flipped.portkey <- function(prop, curr, beta = .99, pf, Cprop, Ccurr, ...)
+{
+	x <- NA
+	loops <- 0
+	# Cx <- Cf(value = curr,...)
+	# Cy <- Cf(value = prop,... )
+	C <- Ccurr/(Ccurr + Cprop)
+	S <- 1
+
+	while(is.na(x))
+	{
+		loops <- loops + 1
+		if(beta != 1) 
+			S <- rbinom(1,1, beta)
+		if(S == 0) 
+		{
+			x <- curr
+			return(list("x" = x, "loops" = loops))
+		} else{
+			C1 <- rbinom(1, 1, C)
+			if(C1 == 1)
+			{
+				p1 <- pf(value = curr, ...)
+				C2 <- rbinom(1, 1, p1)
+				if(C2 == 1)
+				{
+					x <- prop
+					return(list("x" = x, "loops" = loops))
+				} 
+			} else{
+				p2 <- pf(value = prop, ...)
+				C2 <- rbinom(1, 1, p2)
+				if(C2 == 1)
+				{
+					x <- curr
+					return(list("x" = x, "loops" = loops))
+				} 
+			}
+		}
+	}
+}
+
+
+#' Two-coin algorithm: implements the Portkey algorithm for beta = 1.
 #'
 #' @param prop The proposed value in the MCMC step
 #' @param curr The current value in the MCMC step
 #' @param pf A function that produces a Bern(p) realization, with argument \code{value} for the state 
 #'     of the Markov chain
-#' @param Cprop Upper bound for the proposed value
-#' @param Ccurr Upper bound for the current value
+#' @param Cprop Upper bound for the target density at proposed value
+#' @param Ccurr Upper bound for the target density current value
 #' @param ... additional arguments that go into \code{pf}
 #' @return  a variable \code{x} which is either \code{curr} or \code{prop} and integer \code{loops} that returns the number 
 #'     of loops the Bernoulli factory took

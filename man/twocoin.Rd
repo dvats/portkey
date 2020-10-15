@@ -2,7 +2,7 @@
 % Please edit documentation in R/portkey.R
 \name{twocoin}
 \alias{twocoin}
-\title{Two-coin algorithm}
+\title{Two-coin algorithm: implements the Portkey algorithm for beta = 1.}
 \usage{
 twocoin(prop, curr, pf, Cprop, Ccurr, ...)
 }
@@ -14,9 +14,9 @@ twocoin(prop, curr, pf, Cprop, Ccurr, ...)
 \item{pf}{A function that produces a Bern(p) realization, with argument \code{value} for the state 
 of the Markov chain}
 
-\item{Cprop}{Upper bound for the proposed value}
+\item{Cprop}{Upper bound for the target density at proposed value}
 
-\item{Ccurr}{Upper bound for the current value}
+\item{Ccurr}{Upper bound for the target density current value}
 
 \item{...}{additional arguments that go into \code{pf}}
 }
@@ -25,5 +25,5 @@ a variable \code{x} which is either \code{curr} or \code{prop} and integer \code
     of loops the Bernoulli factory took
 }
 \description{
-Two-coin algorithm
+Two-coin algorithm: implements the Portkey algorithm for beta = 1.
 }

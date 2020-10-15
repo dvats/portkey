@@ -2,7 +2,7 @@
 % Please edit documentation in R/portkey.R
 \name{portkey}
 \alias{portkey}
-\title{Portkey two-coin algorithm}
+\title{Portkey two-coin algorithm: returns the result of the accept-reject step of a Portkey Barker's acceptance probability.}
 \usage{
 portkey(prop, curr, beta = 0.99, pf, Cprop, Ccurr, ...)
 }
@@ -11,14 +11,14 @@ portkey(prop, curr, beta = 0.99, pf, Cprop, Ccurr, ...)
 
 \item{curr}{The current value in the MCMC step}
 
-\item{beta}{The portkey parameter with default being .99. If beta = 1, this is the regular two-coin algorithm}
+\item{beta}{The portkey parameter with default being .99. If \code{beta = 1}, this is the regular two-coin algorithm}
 
 \item{pf}{A function that produces a Bern(p) realization, with argument \code{value} for the state 
 of the Markov chain}
 
-\item{Cprop}{Upper bound for the proposed value}
+\item{Cprop}{Upper bound for the target density at proposed value}
 
-\item{Ccurr}{Upper bound for the current value}
+\item{Ccurr}{Upper bound for the target density current value}
 
 \item{...}{additional arguments that go into \code{pf}}
 }
@@ -27,7 +27,7 @@ a variable \code{x} which is either \code{curr} or \code{prop} and integer \code
     of loops the Bernoulli factory took
 }
 \description{
-Portkey two-coin algorithm
+Portkey two-coin algorithm: returns the result of the accept-reject step of a Portkey Barker's acceptance probability.
 }
 \examples{
 # The following example implements the portkey-two coin algorithm for a
@@ -56,8 +56,7 @@ for(i in 2:N)
 		out[i] <- out[i-1]
 		next
 	}
-	interim <- portkey(prop = prop, curr = out[i-1], pf = pf, Cprop = Cf(prop, k), 
-		Ccurr = Cf(out[i-1], k), beta = beta, k = k, a1 = a1, b1 = b1)
+	interim <- portkey(prop = prop, curr = out[i-1], pf = pf, Cprop = Cf(prop, k), Ccurr = Cf(out[i-1], k), beta = beta, k = k, a1 = a1, b1 = b1)
 	out[i] <-  interim[[1]]
 	if(out[i] != out[i-1]) acc <- acc+1
 	loops[i] <- interim[[2]]
@@ -77,6 +76,9 @@ par(mfrow = c(1,2))
 acf(bark$mcmc)
 acf(port$mcmc)
 par(mfrow = c(1,1))
+}
+\references{
+Vats, D., Gonçalves, F. B., Łatuszyński, K., Roberts G. O., Efficient Bernoulli factory MCMC for intractable posteriors (2020+), arxiv.
 }
 \author{
 Dootika Vats, \email{dootika@iitk.ac.in}
